@@ -1,18 +1,28 @@
 <html>
+
 <head>
 	<script src="https://momentjs.com/downloads/moment-with-locales.js" type="text/javascript"></script>
 </head>
+
 <body>
-<h1><span id="test"></span> sekunder til jul!</h1>
+	<h1><span id="test"></span> sekunder til jul!</h1>
 
-<script>
-function update() {
-	var test = moment().diff(moment("24122019", "DDMMYYYY"), 'seconds') * -1;
-	document.getElementById("test").innerHTML = test;
-	setTimeout(function() { update(); }, 1000);
-}
+	<script>
+		function update() {
+			var xmas = moment(new Date('December 24, 2019, 00:00:00'));
+			var now = moment(Date.now());
+			var days = xmas.diff(now, 'days');
+			var hours = xmas.subtract(days, 'days').diff(now, 'hours');
+			var minutes = xmas.subtract(hours, 'hours').diff(now, 'minutes');
+			var seconds = xmas.subtract(minutes, 'minutes').diff(now, 'seconds');
 
-update();
-</script>
+			var test = `${days} dager ${hours} timer ${minutes} minutter ${seconds}`;
+			document.getElementById("test").innerHTML = test;
+			setTimeout(function () { update(); }, 1000);
+		}
+
+		update();
+	</script>
 </body>
+
 </html>
