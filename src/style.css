@@ -1,19 +1,23 @@
+html {
+    height: 100%;
+}
+
 body {
+    height: 100%;
     color: rgb(252, 23, 69);
     background-color: #02a702;
-    text-shadow:
+    /* text-shadow:
        1px 1px 0 #444,
      1px 1px 0 #444,  
       1px 1px 0 #444,
       1px 1px 0 #444,
-       1px 1px 0 #444;
+       1px 1px 0 #444; */
     text-align: center;
 }
 
 #progress-bar {
     width: 100%;
     height: 3em;
-    border: 1px solid black;
     background: #7A5901;
     display: flex;
     position: relative;
@@ -21,7 +25,6 @@ body {
 
 #progress {
     height: 3em;
-    border-right: 1px solid #ceb72e;
     background: #deea28;
 }
 
@@ -39,10 +42,24 @@ body {
     justify-content: center;
     
 }
-/* progressbar.style.width = '100%';
-progressbar.style.height = '2em';
-progress.style.height = '2em';
-progress.style.
-progress.style.borderRight = '1px solid white';
-progressbar.style.border= '1px solid black';
-progressbar.style. */
+
+.luke {
+    
+    background: rebeccapurple;
+    color: white;
+    margin: 1px;
+    padding: 10px;
+}
+
+.open {
+    background: rgb(252, 23, 69);
+    color: white;
+}
+
+#luke-container {
+    background: rgba(50, 140, 90, .8);
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    margin-top: 1em;
+}

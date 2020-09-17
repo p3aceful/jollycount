@@ -1,17 +1,24 @@
 import './style.css';
 import {
+    isAfter,
     isWithinInterval,
     add,
+    addDays,
     differenceInSeconds,
     differenceInHours,
     differenceInDays,
-    differenceInMinutes
+    differenceInMinutes,
+    startOfYear,
+    getYear
 } from 'date-fns';
 
-var header = document.createElement('h1');
-var span = document.createElement('span');
+const header = document.createElement('h1');
+const span = document.createElement('span');
 span.id = 'test';
 
+
+const lukeContainer = document.createElement('div');
+lukeContainer.id = 'luke-container';
 const progressbar = document.createElement('div');
 const progress = document.createElement('div');
 const progressText = document.createElement('div');
@@ -26,47 +33,69 @@ document.body.appendChild(header);
 progressbar.appendChild(progress);
 progressbar.appendChild(progressText);
 document.body.appendChild(progressbar);
+document.body.appendChild(lukeContainer);
+
+
+const daysOfYear = date => {
+    const dates = [];
+    let current = startOfYear(date);
+
+    while (getYear(current) === getYear(date)) {
+        dates.push(current);
+        current = addDays(current, 1);
+    }
+
+    return dates;
+}
+
+const christmasEve = date => {
+    const year = date.getFullYear();
+    return new Date(year, 11, 24);
+}
+
+
+daysOfYear(new Date())
+    .filter(date => !isAfter(date, christmasEve(new Date())))
+    .map((date, i) => {
+        let element = document.createElement('div');
+        element.textContent = i + 1;
+        
+        if (isAfter(date, new Date())) {
+            element.className = 'luke';
+        } else {
+            element.className = 'luke open';
+        }
+
+        lukeContainer.appendChild(element);
+    });
+
 
 let fill = 0;
 
 function update() {
 
-    let now = new Date();
+    const now = new Date();
+    let christmas = christmasEve(new Date());
 
-    let year = now.getFullYear();
+    const days = differenceInDays(christmas, now);
+    const hours = differenceInHours(christmas, add(now, { days }));
+    const minutes = differenceInMinutes(christmas, add(now, { days, hours }));
+    const seconds = differenceInSeconds(christmas, add(now, { days, hours, minutes }));
 
-    let christmas = new Date(`${year}-12-24T00:00:00Z`);
-    let newYear = new Date(`${year}-12-31T23:59:59Z`);
-
-    let christmasEnd = new Date(`${year - 1}-12-25T00:00:00Z`);
-
-    // If christmas has already been this year start countdown to next
-    let isChristmas = isWithinInterval(now, { start: christmas, end: newYear })
-
-    if (isChristmas) {
-        year = year + 1;
-    }
-
-    let days = differenceInDays(christmas, now);
-    let hours = differenceInHours(christmas, add(now, { days }));
-    let minutes = differenceInMinutes(christmas, add(now, { days, hours }));
-    let seconds = differenceInSeconds(christmas, add(now, { days, hours, minutes }));
-
-    let test = `${days} ${days == 1 ? 'dag' : 'dager'} 
+    const test = `${days} ${days == 1 ? 'dag' : 'dager'} 
     ${hours} ${hours == 1 ? 'time' : 'timer'} 
     ${minutes} ${minutes == 1 ? 'minutt' : 'minutter og'} 
     ${seconds} ${seconds == 1 ? 'sekund' : 'sekunder'} til jul!`;
 
-    document.getElementById("test").innerHTML = test;
+    document.getElementById("test").textContent = test;
 
     let daysProgressed = 365 - days;
     let percent = Math.floor((daysProgressed / 365) * 100);
 
     if (fill === 0) {
 
-        let anim = function() {
-            progress.style.width = (percent * (fill/100)) + '%';
-            console.log('lol')
+        let anim = function () {
+            progress.style.width = (percent * (fill / 100)) + '%';
             fill++;
             if (fill <= 100) {
                 setTimeout(anim, 5);
@@ -84,19 +113,3 @@ function update() {
 }
 
 update();
-
-
-/**
- * Interesting!
- */
-function isDST() {
-    const today = new Date();
-    const jan = new Date(new Date().getFullYear(), 0, 1);
-    const jul = new Date(new Date().getFullYear(), 6, 1);
-
-    const stdTimesoneOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-
-    return today.getTimezoneOffset() < stdTimesoneOffset;
-}
-
-
