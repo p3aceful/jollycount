@@ -1,4 +1,48 @@
 body {
-    color: crimson;
-    background-color: darkgreen;
+    color: rgb(252, 23, 69);
+    background-color: #02a702;
+    text-shadow:
+       3px 3px 0 #444,
+     1px 1px 0 #444,  
+      1px 1px 0 #444,
+      1px 1px 0 #444,
+       1px 1px 0 #444;
+    text-align: center;
 }
+
+#progress-bar {
+    width: 100%;
+    height: 3em;
+    border: 1px solid black;
+    background: #7A5901;
+    display: flex;
+    position: relative;
+}
+
+#progress {
+    height: 3em;
+    border-right: 1px solid #ceb72e;
+    background: #deea28;
+}
+
+#progress-text {
+    color: #ff00b3;
+    font-size: larger;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+/* progressbar.style.width = '100%';
+progressbar.style.height = '2em';
+progress.style.height = '2em';
+progress.style.
+progress.style.borderRight = '1px solid white';
+progressbar.style.border= '1px solid black';
+progressbar.style. */

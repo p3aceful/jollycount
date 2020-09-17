@@ -1,5 +1,5 @@
 import './style.css';
-import { 
+import {
     isWithinInterval,
     add,
     differenceInSeconds,
@@ -12,8 +12,20 @@ var header = document.createElement('h1');
 var span = document.createElement('span');
 span.id = 'test';
 
+const progressbar = document.createElement('div');
+const progress = document.createElement('div');
+const progressText = document.createElement('div');
+
+progressText.id = 'progress-text';
+progress.id = 'progress';
+progressbar.id = 'progress-bar';
+
 header.appendChild(span);
 document.body.appendChild(header);
+
+progressbar.appendChild(progress);
+progressbar.appendChild(progressText);
+document.body.appendChild(progressbar);
 
 function update() {
 
@@ -24,6 +36,7 @@ function update() {
     let christmas = new Date(`${year}-12-24T00:00:00Z`);
     let newYear = new Date(`${year}-12-31T23:59:59Z`);
 
+    let christmasEnd = new Date(`${year - 1}-12-25T00:00:00Z`);
 
     // If christmas has already been this year start countdown to next
     let isChristmas = isWithinInterval(now, { start: christmas, end: newYear })
@@ -43,6 +56,12 @@ function update() {
     ${seconds} ${seconds == 1 ? 'sekund' : 'sekunder'} til jul!`;
 
     document.getElementById("test").innerHTML = test;
+
+    let daysProgressed = 365 - days;
+    let percent = Math.floor((daysProgressed / 365) * 100);
+    progress.style.width = percent + '%';
+    progressText.innerText = percent + '% christmas';
+
     setTimeout(function () { update(); }, 1000);
 }
 
