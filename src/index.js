@@ -27,6 +27,8 @@ progressbar.appendChild(progress);
 progressbar.appendChild(progressText);
 document.body.appendChild(progressbar);
 
+let fill = 0;
+
 function update() {
 
     let now = new Date();
@@ -59,7 +61,23 @@ function update() {
 
     let daysProgressed = 365 - days;
     let percent = Math.floor((daysProgressed / 365) * 100);
-    progress.style.width = percent + '%';
+
+    if (fill === 0) {
+
+        let anim = function() {
+            progress.style.width = (percent * (fill/100)) + '%';
+            console.log('lol')
+            fill++;
+            if (fill <= 100) {
+                setTimeout(anim, 5);
+            }
+        };
+
+        anim();
+    } else if (fill === 100) {
+        progress.style.width = percent + '%';
+    }
+
     progressText.innerText = percent + '% christmas';
 
     setTimeout(function () { update(); }, 1000);
