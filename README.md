@@ -5,8 +5,8 @@ Jolly countdown
 
 How to use:
 
-Step 1: Open terminal
+Step 1: Open project folder in terminal
 
-Step 2: type "npm run start"
+Step 2: type "npm start"
 
 Step 3: Write cool stuff!

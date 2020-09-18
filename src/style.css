@@ -1,35 +1,51 @@
 html {
-    height: 100%;
 }
 
 body {
-    height: 100%;
-    color: rgb(252, 23, 69);
-    background-color: #02a702;
-    /* text-shadow:
-       1px 1px 0 #444,
-     1px 1px 0 #444,  
-      1px 1px 0 #444,
-      1px 1px 0 #444,
-       1px 1px 0 #444; */
+    color: crimson;
+    background-color: rgba(34, 139, 34, 0.774);
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     text-align: center;
 }
 
-#progress-bar {
+
+.luke {
+    
+    background: rgba(102, 51, 153, 0.527);
+    color: white;
+    margin: 1px;
+    padding: 10px;
+}
+
+.open {
+    background: rgba(252, 23, 69, 0.788);
+    color: white;
+}
+
+#luke-container {
+    background: rgba(50, 140, 90, .8);
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    margin-top: 1em;
+}
+
+.progress-bar {
     width: 100%;
     height: 3em;
-    background: #7A5901;
+    background: rgba(122, 90, 1, 0.884);
     display: flex;
     position: relative;
+    border: 1px solid black;
 }
 
-#progress {
+.progress {
     height: 3em;
-    background: #deea28;
+    background: #ddea28b9;
 }
 
-#progress-text {
-    color: #02a702;
+.progress-text {
+    color: black;
     font-size: larger;
     position: absolute;
     left: 0;
@@ -40,26 +56,4 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
-}
-
-.luke {
-    
-    background: rebeccapurple;
-    color: white;
-    margin: 1px;
-    padding: 10px;
-}
-
-.open {
-    background: rgb(252, 23, 69);
-    color: white;
-}
-
-#luke-container {
-    background: rgba(50, 140, 90, .8);
-    height: 100%;
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    margin-top: 1em;
 }
