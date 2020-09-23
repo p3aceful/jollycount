@@ -1,115 +1,81 @@
-import './style.css';
+import './style.scss';
 
 import * as dfns from 'date-fns';
-
-window.customElements.define('progress-bar', class extends HTMLElement {
-
-
-    connectedCallback() {
-
-        this.render();
-        setInterval(this.render.bind(this), 1000);
-    }
-
-    render() {
-
-        const date = new Date();
-        const christmas = dfns.differenceInSeconds(new Date(date.getFullYear(), 11, 24), new Date(date.getFullYear(), 0, 1));
-        const progressed = dfns.differenceInSeconds(date, new Date(date.getFullYear(), 0, 1));
-
-        const template = `
-            <div class="progress-bar">
-                <div class="progress" style="width:${(progressed / christmas) * 100}%"></div>
-                <div class="progress-text">${((progressed / christmas) * 100).toFixed(7)}% jolly</div>
-            </div>
-        `;
-        this.innerHTML = template;
-    }
-});
-
-;
-
-const header = document.createElement('h1');
-const span = document.createElement('span');
-span.id = 'test';
-
-
-const lukeContainer = document.createElement('div');
-lukeContainer.id = 'luke-container';
-const progressbar = document.createElement('div');
-const progress = document.createElement('div');
-const progressText = document.createElement('div');
-
-progressText.id = 'progress-text';
-progress.id = 'progress';
-progressbar.id = 'progress-bar';
-
-header.appendChild(span);
-document.body.appendChild(header);
-
-document.body.appendChild(document.createElement('progress-bar'));
-progressbar.appendChild(progress);
-progressbar.appendChild(progressText);
-document.body.appendChild(progressbar);
-document.body.appendChild(lukeContainer);
-
-// document.body.appendChild(document.body.createElement('div'))
-
-const daysOfYear = date => {
-    const dates = [];
-    let current = dfns.startOfYear(date);
-
-    while (dfns.getYear(current) === dfns.getYear(date)) {
-        dates.push(current);
-        current = dfns.addDays(current, 1);
-    }
-
-    return dates;
-}
 
 const christmasEve = date => {
     const year = date.getFullYear();
     return new Date(year, 11, 24);
 }
 
+window.customElements.define('jolly-app', class extends HTMLElement {
 
-daysOfYear(new Date())
-    .filter(date => !dfns.isAfter(date, christmasEve(new Date())))
-    .map((date, i) => {
-        let element = document.createElement('div');
-        let options = { month: 'short', day: 'numeric'};
-        element.textContent = new Intl.DateTimeFormat('nor', options).format(date);
+    constructor() {
+        super();
 
-        if (dfns.isAfter(date, new Date())) {
-            element.className = 'luke';
-        } else {
-            element.className = 'luke open';
-        }
+        this.elements = [
+            document.createElement('jolly-count'),
+            // document.createElement('jolly-progress'),
+            // document.createElement('jolly-calendar'),
+        ];
 
-        lukeContainer.appendChild(element);
-    });
+        this.elements.forEach(element => {
+            element.setAttribute('date', new Date().toISOString());
+        });
+    }
 
+    connectedCallback() {
+        this.elements.forEach(element => this.appendChild(element));
 
-let fill = 0;
+        setInterval(() => {
+            this.elements.forEach(element => {
+                element.setAttribute('date', new Date().toISOString());
+            });
+        }, 1000);
+    }
+});
 
-function update() {
+window.customElements.define('jolly-count', class extends HTMLElement {
 
-    const now = new Date();
-    let christmas = christmasEve(new Date());
+    static get observedAttributes() {
+        return ['date'];
+    }
 
-    const days = dfns.differenceInDays(christmas, now);
-    const hours = dfns.differenceInHours(christmas, dfns.add(now, { days }));
-    const minutes = dfns.differenceInMinutes(christmas, dfns.add(now, { days, hours }));
-    const seconds = dfns.differenceInSeconds(christmas, dfns.add(now, { days, hours, minutes }));
+    attributeChangedCallback(attrName, oldVal, newVal) {
+        this.updateCount();
+    }
 
-    const test = `${days} ${days == 1 ? 'dag' : 'dager'} 
-    ${hours} ${hours == 1 ? 'time' : 'timer'} 
-    ${minutes} ${minutes == 1 ? 'minutt' : 'minutter og'} 
-    ${seconds} ${seconds == 1 ? 'sekund' : 'sekunder'} til jul!`;
+    updateCount() {
+        const now = this.hasAttribute('date') ? new Date(this.getAttribute('date')) : new Date();
+        let christmas = christmasEve(new Date());
 
-    document.getElementById("test").textContent = test;
+        const days = dfns.differenceInDays(christmas, now);
+        const hours = dfns.differenceInHours(christmas, dfns.add(now, { days }));
+        const minutes = dfns.differenceInMinutes(christmas, dfns.add(now, { days, hours }));
+        const seconds = dfns.differenceInSeconds(christmas, dfns.add(now, { days, hours, minutes }));
 
-    setTimeout(function () { update(); }, 1000);
-}
+        const dayText = days === 1 ? 'dag' : 'dager';
+        const hourText = hours === 1 ? 'time' : 'timer';
+        const minuteText = minutes === 1 ? 'minutt og' : 'minutter og';
+        const secondText = seconds === 1 ? 'sekund' : 'sekunder'
+        this.innerHTML = `<h1>${days} ${dayText}</h1><h1>${hours} ${hourText}</h1><h1>${minutes} ${minuteText}</h1><h1>${seconds} ${secondText} til jul!</h1>`;
+    }
 
-update();
+    connectedCallback() {
+        this.updateCount();
+    }
+});
+
+const snowContainer = document.createElement('div');
+snowContainer.classList.add('snow-container');
+
+[... new Array(50)].map(_ => {
+    const element = document.createElement('div');
+    element.classList.add('snow');
+    return element;
+}).forEach(element => snowContainer.appendChild(element));
+
+document.body.appendChild(snowContainer);
+
+const app = document.createElement('jolly-app');
+document.body.appendChild(app);
+

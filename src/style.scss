@@ -1,0 +1,108 @@
+
+body {
+  height: 100vh;
+  // background: #db0b46;
+  background: radial-gradient(ellipse at bottom, #db0b46 0%, #490418 100%);
+  color: #f1ead5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+.snow-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  filter: drop-shadow(0 0 10px white);
+}
+
+@function random_range($min, $max) {
+  $rand: random();
+  $random_range: $min + floor($rand * (($max - $min) + 1));
+  @return $random_range;
+}
+
+.snow {
+  $total: 365;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 50%;
+
+  @for $i from 1 through $total {
+    $random-x: random(1000000) * 0.0001vw;
+    $random-offset: random_range(-100000, 100000) * 0.0001vw;
+    $random-x-end: $random-x + $random-offset;
+    $random-x-end-yoyo: $random-x + ($random-offset / 2);
+    $random-yoyo-time: random_range(30000, 80000) / 100000;
+    $random-yoyo-y: $random-yoyo-time * 100vh;
+    $random-scale: random(10000) * 0.0001;
+    $fall-duration: random_range(10, 30) * 1s;
+    $fall-delay: random(30) * -1s;
+
+    &:nth-child(#{$i}) {
+      opacity: random(10000) * 0.0001;
+      transform: translate($random-x, -10px) scale($random-scale);
+      animation: fall-#{$i} $fall-duration $fall-delay linear infinite;
+    }
+
+    @keyframes fall-#{$i} {
+      #{percentage($random-yoyo-time)} {
+        transform: translate($random-x-end, $random-yoyo-y) scale($random-scale);
+      }
+
+      to {
+        transform: translate($random-x-end-yoyo, 100vh) scale($random-scale);
+      }
+    }
+  }
+}
+
+.progress-outer {
+  height: 3em;
+  background: #f0dca0;
+  position: relative;
+}
+
+.progress-inner {
+  background: #4c816a;
+  height: 100%;
+  color: white;
+}
+
+.progress-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+jolly-calendar > progress-bar:hover {
+  transform: scale(1.25, 1.25);
+  border: 1px solid white;
+  margin: -1px;
+  z-index: 999;
+}
+jolly-calendar > progress-bar:hover > .progress-outer > .progress-label {
+  visibility: visible;
+  color: #70422e;
+}
+jolly-calendar > progress-bar > .progress-outer > .progress-label {
+  visibility: hidden;
+}
+
+jolly-calendar {
+  background: #70422e;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 1px;
+  margin-top: 1em;
+}
