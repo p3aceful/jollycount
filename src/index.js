@@ -65,17 +65,6 @@ window.customElements.define('jolly-count', class extends HTMLElement {
     }
 });
 
-const snowContainer = document.createElement('div');
-snowContainer.classList.add('snow-container');
-
-[... new Array(50)].map(_ => {
-    const element = document.createElement('div');
-    element.classList.add('snow');
-    return element;
-}).forEach(element => snowContainer.appendChild(element));
-
-document.body.appendChild(snowContainer);
-
 const app = document.createElement('jolly-app');
 document.body.appendChild(app);
 

@@ -3,18 +3,16 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-    mode: 'development',
+ 
     entry: './src/index.js',
-    devtool: 'inline-source-map',
-    devServer: {
-        contentBase: './dist',
-    },
+
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             title: 'Jollycount',
         }),
-    ], module: {
+    ],
+    module: {
         rules: [
             {
                 test: /\.s[ac]ss$/i,
@@ -22,9 +20,9 @@ module.exports = {
                     'style-loader',
                     'css-loader',
                     'sass-loader',
-                ]
-            }
-        ]
+                ],
+            },
+        ],
     },
     output: {
         filename: 'main.js',
