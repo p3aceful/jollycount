@@ -1,0 +1,32 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <circle cx="16" cy="16" r="16" fill="#881337"/>
+  
+  <!-- Snowflake -->
+  <g fill="white">
+    <!-- Main cross -->
+    <rect x="15" y="7" width="2" height="18" />
+    <rect x="7" y="15" width="18" height="2" />
+    
+    <!-- Diagonal lines -->
+    <g transform="rotate(45 16 16)">
+      <rect x="15" y="7" width="2" height="18" />
+      <rect x="7" y="15" width="18" height="2" />
+    </g>
+    
+    <!-- Center circle -->
+    <circle cx="16" cy="16" r="2" />
+    
+    <!-- Small decorative dots -->
+    <circle cx="16" cy="7" r="1.5" />
+    <circle cx="16" cy="25" r="1.5" />
+    <circle cx="7" cy="16" r="1.5" />
+    <circle cx="25" cy="16" r="1.5" />
+    
+    <!-- Diagonal dots -->
+    <circle cx="9" cy="9" r="1.5" />
+    <circle cx="23" cy="23" r="1.5" />
+    <circle cx="23" cy="9" r="1.5" />
+    <circle cx="9" cy="23" r="1.5" />
+  </g>
+</svg>
