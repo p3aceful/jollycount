@@ -1,21 +1,21 @@
 name: Build and Deploy
-on: [push]
+on:
+  push:
+    branches:
+      - master # or 'main' depending on your branch name
 
-# Add permissions for GitHub Pages
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
 
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: "npm"
@@ -26,13 +26,12 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
-        with:
-          path: ./out
+      - name: Add .nojekyll file
+        run: touch out/.nojekyll
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          folder: out # The folder the action should deploy
+          branch: gh-pages # The branch the action should deploy to
+          clean: true # Automatically remove deleted files from the deployment branch
